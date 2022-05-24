@@ -10,39 +10,39 @@ namespace AlgorithmsSortLinear1
     public class Sort
     {
         //Сортировка подсчетом
-        public static void Counting(int[] mas)
+        public static void Counting(int[] array)
         {
-            int max = mas.Max();
-            int min = mas.Min();
+            int max = array.Max();
+            int min = array.Min();
             int[] count = new int[max - min + 1];
             int k = 0;
             int index = -1;
-            while (++index < mas.Length)
-                count[mas[index] - min]++;
+            while (++index < array.Length)
+                count[array[index] - min]++;
             index = min;
             while (index <= max)
             {
                 while (count[index - min]-- > 0)
                 {
-                    mas[k++] = index;
+                    array[k++] = index;
                 }
                 index++;
             }
         }
 
         //Голубиная сортировка
-        public static void Pigeonhole(int[] mas)
+        public static void Pigeonhole(int[] array)
         {
             Dictionary<int, int> dictionary = new();
-            foreach (var item in mas)
+            foreach (var item in array)
             {
                 if (dictionary.ContainsKey(item))
                     dictionary[item]++;
                 else
                     dictionary.Add(item, item);
             }
-            int max = mas.Max();
-            int min = mas.Min();
+            int max = array.Max();
+            int min = array.Min();
             int index = 0;
             int k;
             while (min <= max)
@@ -52,7 +52,7 @@ namespace AlgorithmsSortLinear1
                     k = min;
                     while (k <= dictionary[min])
                     {
-                        mas[index++] = min;
+                        array[index++] = min;
                         k++;
                     }
                 }
@@ -61,17 +61,17 @@ namespace AlgorithmsSortLinear1
         }
 
         //Блочная сортировка
-        public static void Bucket(int[] data)
+        public static void Bucket(int[] array)
         {
-            int min = data.Min();
-            int max = data.Max();
+            int min = array.Min();
+            int max = array.Max();
             int i = -1, k = 0, j;
             List<int>[] bucket = new List<int>[max - min + 1];
             while (++i < bucket.Length)
                 bucket[i] = new List<int>();
             i = -1;
-            while (++i < data.Length)
-                bucket[data[i] - min].Add(data[i]);
+            while (++i < array.Length)
+                bucket[array[i] - min].Add(array[i]);
             i = -1;
             while (++i < bucket.Length)
             {
@@ -80,7 +80,7 @@ namespace AlgorithmsSortLinear1
                 {
                     while (++j < bucket[i].Count)
                     {
-                        data[k++] = bucket[i][j];
+                        array[k++] = bucket[i][j];
                     }
                 }
             }
@@ -88,9 +88,9 @@ namespace AlgorithmsSortLinear1
 
         //Поразрядная сортировка
 
-        public static void Radix_LSD(int[] mas)
+        public static void Radix_LSD(int[] array)
         {
-            int count = (int)Math.Floor(Math.Log10(mas.Max()));
+            int count = (int)Math.Floor(Math.Log10(array.Max()));
             int i = -1, j, index, u, v;
             List<int>[] bucket = new List<int>[10];
             while (++i < bucket.Length)
@@ -99,15 +99,15 @@ namespace AlgorithmsSortLinear1
             while (++i <= count)
             {
                 j = -1;
-                while (++j < mas.Length)
-                    bucket[(int)Math.Floor(mas[j] % Math.Pow(10, i + 1) / Math.Pow(10, i))].Add(mas[j]);
+                while (++j < array.Length)
+                    bucket[(int)Math.Floor(array[j] % Math.Pow(10, i + 1) / Math.Pow(10, i))].Add(array[j]);
                 index = 0; u = -1;
                 while (++u < 10)
                 {
                     v = -1;
                     while (++v < bucket[u].Count)
                     {
-                        mas[index++] = bucket[u][v];
+                        array[index++] = bucket[u][v];
                     }
                     bucket[u].Clear();
                 }
